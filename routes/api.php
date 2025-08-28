@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PaperTemplateController;
 use App\Http\Controllers\Api\StudyMaterialController;
 use Illuminate\Http\Request;
@@ -23,4 +24,13 @@ Route::prefix('paper-templates')->group(function () {
 // Study Material Routes
 Route::prefix('study-materials')->group(function () {
     Route::get('/', [StudyMaterialController::class, 'index']);
+});
+
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login',    [AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/profile', [AuthController::class, 'profile']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
