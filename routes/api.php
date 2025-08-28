@@ -11,7 +11,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 })->name('user');
 
 // To check the health of the API
-Route::get('/health', function () {
+Route::get('/', function () {
     return response()->json(['status' => 'OK']);
 })->name('health');
 
