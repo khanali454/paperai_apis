@@ -16,21 +16,24 @@ Route::get('/', function () {
     return response()->json(['status' => 'OK']);
 })->name('health');
 
-// Paper Template Routes
-Route::prefix('paper-templates')->group(function () {
-    Route::get('/', [PaperTemplateController::class, 'index']);
-});
-
 // Study Material Routes
 Route::prefix('study-materials')->group(function () {
     Route::get('/', [StudyMaterialController::class, 'index']);
 });
 
-
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login',    [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::prefix('user')->middleware('auth:sanctum')->group(function () {
     Route::get('/profile', [AuthController::class, 'profile']);
     Route::post('/logout', [AuthController::class, 'logout']);
+
+    // Paper Template Routes
+    Route::prefix('paper-templates')->group(function () {
+        // get all templates
+        Route::get('/', [PaperTemplateController::class, 'index']);
+        // delete template by id
+        Route::delete('/{id}', [PaperTemplateController::class, 'destroy']);
+    });
+
 });
