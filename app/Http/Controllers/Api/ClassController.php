@@ -91,7 +91,6 @@ class ClassController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name'        => 'required|string|max:255|unique:student_classes,name,' . $id . ',id',
-            ,
             'description' => 'nullable|string',
         ]);
 
