@@ -1,9 +1,3 @@
-Perfect 👍 You want a **more detailed `README.md`** with **error responses included** so anyone integrating knows what to expect for both success ✅ and failure ❌.
-
-Here’s the **complete updated README** with error responses and best practices added:
-
----
-
 # 📘 API Documentation
 
 Base URL:
