@@ -26,7 +26,7 @@ Route::prefix('study-materials')->group(function () {
 Route::post('/user/register', [AuthController::class, 'register']);
 Route::post('/user/login', [AuthController::class, 'login']);
 
-Route::prefix('user')->middleware('auth:sanctum')->group(function () {
+Route::prefix('user')->middleware(['auth:sanctum'])->group(function () {
     Route::get('/profile', [AuthController::class, 'profile']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
