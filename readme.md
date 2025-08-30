@@ -1,9 +1,18 @@
+Perfect 👍 You want a **more detailed `README.md`** with **error responses included** so anyone integrating knows what to expect for both success ✅ and failure ❌.
+
+Here’s the **complete updated README** with error responses and best practices added:
+
+---
+
+```markdown
 # 📘 API Documentation
 
 Base URL:
 
 ```
-http://apis.babalrukn.com/api
+
+[http://apis.babalrukn.com/api](http://apis.babalrukn.com/api)
+
 ````
 
 Some endpoints require **Bearer Token** (Sanctum authentication).  
@@ -25,7 +34,7 @@ Some endpoints require **Bearer Token** (Sanctum authentication).
 }
 ````
 
-**Response:**
+**✅ Success Response:**
 
 ```json
 {
@@ -40,7 +49,26 @@ Some endpoints require **Bearer Token** (Sanctum authentication).
       "role": "teacher"
     }
   },
-  "message": "Paper templates retrieved successfully."
+  "message": "Account Created successfully."
+}
+```
+
+**❌ Error Responses:**
+
+```json
+{
+  "status": false,
+  "message": "The email has already been taken."
+}
+```
+
+```json
+{
+  "status": false,
+  "message": "Validation failed",
+  "errors": {
+    "email": ["The email field is required."]
+  }
 }
 ```
 
@@ -59,7 +87,7 @@ Some endpoints require **Bearer Token** (Sanctum authentication).
 }
 ```
 
-**Response:**
+**✅ Success Response:**
 
 ```json
 {
@@ -78,6 +106,15 @@ Some endpoints require **Bearer Token** (Sanctum authentication).
 }
 ```
 
+**❌ Error Responses:**
+
+```json
+{
+  "status": false,
+  "message": "Invalid credentials."
+}
+```
+
 ---
 
 ### 🔹 Profile (Requires Token)
@@ -90,7 +127,7 @@ Some endpoints require **Bearer Token** (Sanctum authentication).
 Authorization: Bearer YOUR_AUTH_TOKEN
 ```
 
-**Response:**
+**✅ Success Response:**
 
 ```json
 {
@@ -108,6 +145,15 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 }
 ```
 
+**❌ Error Response:**
+
+```json
+{
+  "status": false,
+  "message": "Unauthenticated."
+}
+```
+
 ---
 
 ### 🔹 Logout (Requires Token)
@@ -120,12 +166,21 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 Authorization: Bearer YOUR_AUTH_TOKEN
 ```
 
-**Response:**
+**✅ Success Response:**
 
 ```json
 {
   "status": true,
   "message": "Logged out successfully"
+}
+```
+
+**❌ Error Response:**
+
+```json
+{
+  "status": false,
+  "message": "Unauthenticated."
 }
 ```
 
@@ -137,13 +192,7 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 
 **GET** `/user/classes`
 
-**Headers:**
-
-```
-Authorization: Bearer YOUR_AUTH_TOKEN
-```
-
-**Response:**
+**✅ Success Response:**
 
 ```json
 {
@@ -162,6 +211,15 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 }
 ```
 
+**❌ Error Response:**
+
+```json
+{
+  "status": false,
+  "message": "Unauthenticated."
+}
+```
+
 ---
 
 ### 🔹 Create Class
@@ -177,7 +235,7 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 }
 ```
 
-**Response:**
+**✅ Success Response:**
 
 ```json
 {
@@ -194,11 +252,36 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 }
 ```
 
+**❌ Error Responses:**
+
+```json
+{
+  "status": false,
+  "message": "The name field is required."
+}
+```
+
+```json
+{
+  "status": false,
+  "message": "Unauthenticated."
+}
+```
+
 ---
 
 ### 🔹 Get Class by ID
 
 **GET** `/user/classes/{id}`
+
+**❌ Error Response:**
+
+```json
+{
+  "status": false,
+  "message": "Class not found."
+}
+```
 
 ---
 
@@ -215,11 +298,54 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 }
 ```
 
+**✅ Success Response:**
+
+```json
+{
+  "status": true,
+  "data": {
+    "class": {
+      "id": 1,
+      "name": "Updated Class",
+      "description": "Updated Description"
+    }
+  },
+  "message": "Class updated successfully"
+}
+```
+
+**❌ Error Response:**
+
+```json
+{
+  "status": false,
+  "message": "Class not found."
+}
+```
+
 ---
 
 ### 🔹 Delete Class
 
 **DELETE** `/user/classes/{id}`
+
+**✅ Success Response:**
+
+```json
+{
+  "status": true,
+  "message": "Class deleted successfully"
+}
+```
+
+**❌ Error Response:**
+
+```json
+{
+  "status": false,
+  "message": "Class not found."
+}
+```
 
 ---
 
@@ -229,11 +355,29 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 
 **GET** `/user/classes/subjects`
 
+**❌ Error Response:**
+
+```json
+{
+  "status": false,
+  "message": "Unauthenticated."
+}
+```
+
 ---
 
 ### 🔹 Get Subjects of a Class
 
 **GET** `/user/classes/{class_id}/subjects`
+
+**❌ Error Response:**
+
+```json
+{
+  "status": false,
+  "message": "Class not found."
+}
+```
 
 ---
 
@@ -250,11 +394,53 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 }
 ```
 
+**✅ Success Response:**
+
+```json
+{
+  "status": true,
+  "data": {
+    "subject": {
+      "id": 1,
+      "name": "Algebra",
+      "description": "Basic Algebra course",
+      "class_id": 1
+    }
+  },
+  "message": "Subject created successfully"
+}
+```
+
+**❌ Error Responses:**
+
+```json
+{
+  "status": false,
+  "message": "The name field is required."
+}
+```
+
+```json
+{
+  "status": false,
+  "message": "Class not found."
+}
+```
+
 ---
 
 ### 🔹 Get Subject by ID
 
 **GET** `/user/classes/{class_id}/subjects/{subject_id}`
+
+**❌ Error Response:**
+
+```json
+{
+  "status": false,
+  "message": "Subject not found."
+}
+```
 
 ---
 
@@ -271,11 +457,54 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 }
 ```
 
+**✅ Success Response:**
+
+```json
+{
+  "status": true,
+  "data": {
+    "subject": {
+      "id": 1,
+      "name": "Advanced Algebra",
+      "description": "Updated description"
+    }
+  },
+  "message": "Subject updated successfully"
+}
+```
+
+**❌ Error Response:**
+
+```json
+{
+  "status": false,
+  "message": "Subject not found."
+}
+```
+
 ---
 
 ### 🔹 Delete Subject
 
 **DELETE** `/user/classes/{class_id}/subjects/{subject_id}`
+
+**✅ Success Response:**
+
+```json
+{
+  "status": true,
+  "message": "Subject deleted successfully"
+}
+```
+
+**❌ Error Response:**
+
+```json
+{
+  "status": false,
+  "message": "Subject not found."
+}
+```
 
 ---
 
@@ -283,7 +512,7 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 
 **GET** `/`
 
-Response:
+**✅ Success Response:**
 
 ```json
 {
@@ -298,6 +527,6 @@ Response:
 * Use `Authorization: Bearer <token>` in headers for all protected routes.
 * Register/Login APIs return the token required for subsequent requests.
 * All responses are JSON formatted.
+* Error messages are clear and descriptive for easy debugging.
 
 ---
-

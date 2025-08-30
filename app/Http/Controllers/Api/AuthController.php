@@ -34,7 +34,7 @@ class AuthController extends Controller
                 "token" => $token,
                 "user"  => $user,
             ],
-            'message' => 'Paper templates retrieved successfully.',
+            'message' => 'Account Created successfully.',
         ]);
 
     }
