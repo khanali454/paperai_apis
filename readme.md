@@ -10,10 +10,9 @@ Here’s the **complete updated README** with error responses and best practices
 Base URL:
 
 ```
+http://apis.babalrukn.com/api
 
-[http://apis.babalrukn.com/api](http://apis.babalrukn.com/api)
-
-````
+```
 
 Some endpoints require **Bearer Token** (Sanctum authentication).  
 
