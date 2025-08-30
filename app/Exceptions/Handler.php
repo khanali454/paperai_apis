@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Exceptions;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\JsonResponse;
 use Throwable;
+use Illuminate\Http\JsonResponse;
 
 class Handler extends ExceptionHandler
 {
@@ -22,6 +23,7 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         return response()->json([
+            'success' => false,
             'message' => 'Unauthenticated.',
         ], 401);
     }
@@ -29,7 +31,7 @@ class Handler extends ExceptionHandler
     /**
      * Render exceptions into an HTTP response.
      */
-    public function render($request, Throwable $e): JsonResponse | \Symfony\Component\HttpFoundation\Response
+    public function render($request, Throwable $e): JsonResponse|\Symfony\Component\HttpFoundation\Response
     {
         if ($request->is('api/*')) {
             return match (true) {
