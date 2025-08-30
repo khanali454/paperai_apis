@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ClassController;
 use App\Http\Controllers\Api\PaperTemplateController;
 use App\Http\Controllers\Api\StudyMaterialController;
+use App\Http\Controllers\Api\SubjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,5 +37,23 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
         // delete template by id
         Route::delete('/{id}', [PaperTemplateController::class, 'destroy']);
     });
+
+    Route::prefix('classes')->group(function () {
+        Route::get('/', [ClassController::class, 'index']);
+        Route::post('/', [ClassController::class, 'store']);
+        Route::get('/{id}', [ClassController::class, 'show']);
+        Route::put('/{id}', [ClassController::class, 'update']);
+        Route::delete('/{id}', [ClassController::class, 'destroy']);
+
+        // subjects
+        Route::get('/subjects', [SubjectController::class, 'index']);
+        Route::get('/{class}/subjects', [SubjectController::class, 'classSubjects']);
+        Route::post('/{class}/subjects', [SubjectController::class, 'store']);
+        Route::get('/{class}/subjects/{subject}', [SubjectController::class, 'show']);
+        Route::put('/{class}/subjects/{subject}', [SubjectController::class, 'update']);
+        Route::delete('/{class}/subjects/{subject}', [SubjectController::class, 'destroy']);
+    });
+
+    
 
 });
