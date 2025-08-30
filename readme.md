@@ -3,9 +3,7 @@
 Base URL:
 
 ```
-
-[http://apis.babalrukn.com/api](http://apis.babalrukn.com/api)
-
+http://apis.babalrukn.com/api
 ````
 
 Some endpoints require **Bearer Token** (Sanctum authentication).  
@@ -23,8 +21,7 @@ Some endpoints require **Bearer Token** (Sanctum authentication).
   "name": "John Doe",
   "email": "john@example.com",
   "phone": "1234567890",
-  "password": "secret123",
-  "role": "teacher"   // optional, default = teacher
+  "password": "secret123"
 }
 ````
 
