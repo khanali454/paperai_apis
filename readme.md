@@ -206,7 +206,6 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 
 ```json
 {
-  "status": false,
   "message": "Unauthenticated."
 }
 ```
@@ -236,7 +235,6 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 
 ```json
 {
-  "status": false,
   "message": "Unauthenticated."
 }
 ```
@@ -258,11 +256,71 @@ Authorization: Bearer YOUR_AUTH_TOKEN
     "classes": [
       {
         "id": 1,
-        "name": "Math Class",
-        "description": "Basic Mathematics",
-        "organized_by": 1
+        "name": "8th Grade",
+        "description": "Class for 8th grade students",
+        "organized_by": 1,
+        "created_at": "2025-08-28T12:03:54.000000Z",
+        "updated_at": "2025-08-28T12:03:54.000000Z"
+      },
+      {
+        "id": 2,
+        "name": "9th Grade",
+        "description": "Class for 9th grade students",
+        "organized_by": 1,
+        "created_at": "2025-08-28T12:03:54.000000Z",
+        "updated_at": "2025-08-28T12:03:54.000000Z"
+      },
+      {
+        "id": 3,
+        "name": "10th Grade",
+        "description": "Class for 10th grade students",
+        "organized_by": 1,
+        "created_at": "2025-08-28T12:03:54.000000Z",
+        "updated_at": "2025-08-28T12:03:54.000000Z"
+      },
+      {
+        "id": 4,
+        "name": "11th Grade",
+        "description": "Class for 11th grade students",
+        "organized_by": 1,
+        "created_at": "2025-08-28T12:03:54.000000Z",
+        "updated_at": "2025-08-28T12:03:54.000000Z"
+      },
+      {
+        "id": 5,
+        "name": "12th Grade",
+        "description": "Class for 12th grade students",
+        "organized_by": 1,
+        "created_at": "2025-08-28T12:03:54.000000Z",
+        "updated_at": "2025-08-28T12:03:54.000000Z"
+      },
+      {
+        "id": 6,
+        "name": "12th",
+        "description": null,
+        "organized_by": 1,
+        "created_at": "2025-08-30T06:42:08.000000Z",
+        "updated_at": "2025-08-30T06:42:08.000000Z"
+      },
+      {
+        "id": 7,
+        "name": "11th",
+        "description": null,
+        "organized_by": 1,
+        "created_at": "2025-08-30T06:43:05.000000Z",
+        "updated_at": "2025-08-30T06:43:05.000000Z"
       }
     ]
+  },
+  "message": "Classes fetched successfully"
+}
+```
+
+```json
+{
+  "status": true,
+  "data": {
+    "classes": []
   },
   "message": "Classes fetched successfully"
 }
@@ -272,7 +330,6 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 
 ```json
 {
-  "status": false,
   "message": "Unauthenticated."
 }
 ```
@@ -299,10 +356,12 @@ Authorization: Bearer YOUR_AUTH_TOKEN
   "status": true,
   "data": {
     "class": {
-      "id": 2,
-      "name": "Science Class",
-      "description": "Physics and Chemistry",
-      "organized_by": 1
+      "name": "6th Class",
+      "description": null,
+      "organized_by": 2,
+      "updated_at": "2025-08-30T12:51:18.000000Z",
+      "created_at": "2025-08-30T12:51:18.000000Z",
+      "id": 8
     }
   },
   "message": "Class created successfully"
@@ -314,13 +373,19 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 ```json
 {
   "status": false,
+  "data": {
+    "errors": {
+      "name": [
+        "The name field is required."
+      ]
+    }
+  },
   "message": "The name field is required."
 }
 ```
 
 ```json
 {
-  "status": false,
   "message": "Unauthenticated."
 }
 ```
