@@ -4,7 +4,6 @@ Here’s the **complete updated README** with error responses and best practices
 
 ---
 
-```markdown
 # 📘 API Documentation
 
 Base URL:
