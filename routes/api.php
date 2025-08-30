@@ -23,8 +23,8 @@ Route::prefix('study-materials')->group(function () {
     Route::get('/', [StudyMaterialController::class, 'index']);
 });
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/user/register', [AuthController::class, 'register']);
+Route::post('/user/login', [AuthController::class, 'login']);
 
 Route::prefix('user')->middleware('auth:sanctum')->group(function () {
     Route::get('/profile', [AuthController::class, 'profile']);

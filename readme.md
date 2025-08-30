@@ -14,7 +14,7 @@ Some endpoints require **Bearer Token** (Sanctum authentication).
 ## 🚀 Authentication
 
 ### 🔹 Register  
-**POST** `/register`
+**POST** `/user/register`
 
 **Request Body:**
 ```json
@@ -68,14 +68,14 @@ Some endpoints require **Bearer Token** (Sanctum authentication).
 
 ### 🔹 Login
 
-**POST** `/login`
+**POST** `/user/login`
 
 **Request Body:**
 
 ```json
 {
-  "email": "john@example.com",
-  "password": "secret123"
+  "email": "aqeel@gmail.com",
+  "password": "password123"
 }
 ```
 
@@ -85,13 +85,19 @@ Some endpoints require **Bearer Token** (Sanctum authentication).
 {
   "status": true,
   "data": {
-    "token": "YOUR_AUTH_TOKEN",
+    "token": "2|ILUWQ0HcCzIxFnFy8C4TLG874E88KQF8RO0MY8Nw95d5f90c",
     "user": {
       "id": 1,
-      "name": "John Doe",
-      "email": "john@example.com",
-      "phone": "1234567890",
-      "role": "teacher"
+      "name": "Aqeel Abbas",
+      "email": "aqeel@gmail.com",
+      "phone": 1234567890,
+      "email_verified_at": null,
+      "role": "teacher",
+      "status": "active",
+      "profile_picture": null,
+      "organization": null,
+      "created_at": "2025-08-28T12:03:53.000000Z",
+      "updated_at": "2025-08-28T12:03:53.000000Z"
     }
   },
   "message": "Logged in successfully."
