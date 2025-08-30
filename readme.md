@@ -20,9 +20,9 @@ Some endpoints require **Bearer Token** (Sanctum authentication).
 ```json
 {
   "name": "John Doe",
-  "email": "john@example.com",
+  "email": "yameen@gmail.com",
   "phone": "1234567890",
-  "password": "secret123"
+  "password": "password123"
 }
 ````
 
@@ -32,13 +32,15 @@ Some endpoints require **Bearer Token** (Sanctum authentication).
 {
   "status": true,
   "data": {
-    "token": "YOUR_AUTH_TOKEN",
+    "token": "4|sTaKiL9SycXFt2xvbZ1vlQIznqPXVvoq3oEE5mgh5feb1ed5",
     "user": {
-      "id": 1,
       "name": "John Doe",
-      "email": "john@example.com",
+      "email": "yameen@gmail.com",
       "phone": "1234567890",
-      "role": "teacher"
+      "role": "teacher",
+      "updated_at": "2025-08-30T07:22:03.000000Z",
+      "created_at": "2025-08-30T07:22:03.000000Z",
+      "id": 4
     }
   },
   "message": "Account Created successfully."
@@ -50,17 +52,37 @@ Some endpoints require **Bearer Token** (Sanctum authentication).
 ```json
 {
   "status": false,
-  "message": "The email has already been taken."
+  "data": {
+    "errors": {
+      "name": [
+        "The name field is required."
+      ],
+      "email": [
+        "The email field is required."
+      ],
+      "phone": [
+        "The phone field is required."
+      ],
+      "password": [
+        "The password field is required."
+      ]
+    }
+  },
+  "message": "The name field is required."
 }
 ```
 
 ```json
 {
   "status": false,
-  "message": "Validation failed",
-  "errors": {
-    "email": ["The email field is required."]
-  }
+  "data": {
+    "errors": {
+      "email": [
+        "The email has already been taken."
+      ]
+    }
+  },
+  "message": "The email has already been taken."
 }
 ```
 
@@ -109,7 +131,38 @@ Some endpoints require **Bearer Token** (Sanctum authentication).
 ```json
 {
   "status": false,
-  "message": "Invalid credentials."
+  "message": "Invalid credentials"
+}
+```
+
+```json
+{
+  "status": false,
+  "data": {
+    "errors": {
+      "email": [
+        "The email field is required."
+      ],
+      "password": [
+        "The password field is required."
+      ]
+    }
+  },
+  "message": "The email field is required."
+}
+```
+
+```json
+{
+  "status": false,
+  "data": {
+    "errors": {
+      "email": [
+        "The email field is required."
+      ]
+    }
+  },
+  "message": "The email field is required."
 }
 ```
 
@@ -133,10 +186,16 @@ Authorization: Bearer YOUR_AUTH_TOKEN
   "data": {
     "profile": {
       "id": 1,
-      "name": "John Doe",
-      "email": "john@example.com",
-      "phone": "1234567890",
-      "role": "teacher"
+      "name": "Aqeel Abbas",
+      "email": "aqeel@gmail.com",
+      "phone": 1234567890,
+      "email_verified_at": null,
+      "role": "teacher",
+      "status": "active",
+      "profile_picture": null,
+      "organization": null,
+      "created_at": "2025-08-28T12:03:53.000000Z",
+      "updated_at": "2025-08-28T12:03:53.000000Z"
     }
   },
   "message": "Data retrieved successfully"
