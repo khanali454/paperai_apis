@@ -67,11 +67,7 @@ class SubjectController extends Controller
             'name'        => [
                 'required',
                 'string',
-                'max:255',
-                Rule::unique('subjects')->where(function ($q) use ($classId, $request) {
-                    return $q->where('class_id', $classId)
-                        ->whereRaw('LOWER(name) = ?', [strtolower($request->name)]);
-                }),
+                'max:255'
             ],
             'description' => 'nullable|string',
         ]);
@@ -156,11 +152,7 @@ class SubjectController extends Controller
             'name'        => [
                 'required',
                 'string',
-                'max:255',
-                Rule::unique('subjects')->where(function ($q) use ($classId, $request) {
-                    return $q->where('class_id', $classId)
-                        ->whereRaw('LOWER(name) = ?', [strtolower($request->name)]);
-                })->ignore($id),
+                'max:255'
             ],
             'description' => 'nullable|string',
         ]);
