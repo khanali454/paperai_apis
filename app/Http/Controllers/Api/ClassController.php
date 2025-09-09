@@ -27,7 +27,7 @@ class ClassController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name'        => 'required|string|max:255|unique:student_classes,name',
+            'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
 
@@ -90,7 +90,7 @@ class ClassController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'name'        => 'required|string|max:255|unique:student_classes,name,' . $id . ',id',
+            'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
 
