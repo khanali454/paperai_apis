@@ -475,7 +475,7 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 
 ### 🔹 Get All Subjects
 
-**GET** `/user/classes/subjects`
+**GET** `/user/classes/all-subjects`
 
 **❌ Error Response:**
 
