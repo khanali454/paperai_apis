@@ -12,7 +12,7 @@ class ClassController extends Controller
     // Get all classes for logged in user
     public function index()
     {
-        $classes = StudentClass::where('organized_by', Auth::id())->get();
+        $classes = StudentClass::withCount('subjects')->where('organized_by', Auth::id())->get();
 
         return response()->json([
             'status'  => true,
