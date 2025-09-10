@@ -47,7 +47,7 @@ Route::prefix('user')->middleware(['auth:sanctum'])->group(function () {
 
         // subjects
         Route::get('/subjects/all', [SubjectController::class, 'index']);
-        Route::get('/{class}/subjects', [SubjectController::class, 'classSubjects']);
+        // Route::get('/{class}/subjects', [SubjectController::class, 'classSubjects']);
         Route::post('/{class}/subjects', [SubjectController::class, 'store']);
         Route::get('/{class}/subjects/{subject}', [SubjectController::class, 'show']);
         Route::put('/{class}/subjects/{subject}', [SubjectController::class, 'update']);
