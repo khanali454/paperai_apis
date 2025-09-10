@@ -46,7 +46,7 @@ Route::prefix('user')->middleware(['auth:sanctum'])->group(function () {
         Route::delete('/{id}', [ClassController::class, 'destroy']);
 
         // subjects
-        Route::get('/subjects', [SubjectController::class, 'index']);
+        Route::get('/all-subjects', [SubjectController::class, 'index']);
         Route::get('/{class}/subjects', [SubjectController::class, 'classSubjects']);
         Route::post('/{class}/subjects', [SubjectController::class, 'store']);
         Route::get('/{class}/subjects/{subject}', [SubjectController::class, 'show']);
