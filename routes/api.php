@@ -45,15 +45,18 @@ Route::prefix('user')->middleware(['auth:sanctum'])->group(function () {
         Route::put('/{id}', [ClassController::class, 'update']);
         Route::delete('/{id}', [ClassController::class, 'destroy']);
 
-        // subjects
-        Route::get('/subjects/all', [SubjectController::class, 'index']);
-        // Route::get('/{class}/subjects', [SubjectController::class, 'classSubjects']);
-        Route::post('/{class}/subjects', [SubjectController::class, 'store']);
-        Route::get('/{class}/subjects/{subject}', [SubjectController::class, 'show']);
-        Route::put('/{class}/subjects/{subject}', [SubjectController::class, 'update']);
-        Route::delete('/{class}/subjects/{subject}', [SubjectController::class, 'destroy']);
+        // Class-specific Subjects
+        Route::prefix('{class}/subjects')->group(function () {
+            Route::get('/', [SubjectController::class, 'classSubjects']);       // subjects for a class
+            Route::post('/', [SubjectController::class, 'store']);              // add subject to class
+            Route::get('/{subject}', [SubjectController::class, 'show']);       // single subject in class
+            Route::put('/{subject}', [SubjectController::class, 'update']);     // update subject in class
+            Route::delete('/{subject}', [SubjectController::class, 'destroy']); // delete subject
+        });
+
     });
 
-    
+    // All Subjects (regardless of class)
+    Route::get('/subjects', [SubjectController::class, 'index']);
 
 });
