@@ -12,7 +12,7 @@ class Subject extends Model
         'class_id',
     ];
 
-    public function class()
+    public function subject_class()
     {
         return $this->belongsTo(StudentClass::class, 'class_id');
     }

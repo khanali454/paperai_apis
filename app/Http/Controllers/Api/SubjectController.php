@@ -14,8 +14,8 @@ class SubjectController extends Controller
     // Get all subjects for logged in user
     public function index()
     {
-        $subjects = Subject::with('class')
-            ->whereHas('class', function ($query) {
+        $subjects = Subject::with('subject_class')
+            ->whereHas('subject_class', function ($query) {
                 $query->where('organized_by', Auth::id());
             })
             ->get();
