@@ -26,9 +26,10 @@ class ClassController extends Controller
     // Store a new class
     public function store(Request $request)
     {
+        // max characters of description are 150
         $validator = Validator::make($request->all(), [
-            'name'        => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'name'        => 'required|string|max:100',
+            'description' => 'nullable|string|max:200',
         ]);
 
         if ($validator->fails()) {
@@ -90,8 +91,8 @@ class ClassController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'name'        => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'name'        => 'required|string|max:100',
+            'description' => 'nullable|string|max:200',
         ]);
 
         if ($validator->fails()) {

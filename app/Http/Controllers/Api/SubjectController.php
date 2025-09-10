@@ -67,9 +67,9 @@ class SubjectController extends Controller
             'name'        => [
                 'required',
                 'string',
-                'max:255'
+                'max:100'
             ],
-            'description' => 'nullable|string',
+            'description' => 'nullable|string|max:200',
         ]);
 
         if ($validator->fails()) {
@@ -152,9 +152,9 @@ class SubjectController extends Controller
             'name'        => [
                 'required',
                 'string',
-                'max:255'
+                'max:100'
             ],
-            'description' => 'nullable|string',
+            'description' => 'nullable|string|max:200',
         ]);
 
         if ($validator->fails()) {
