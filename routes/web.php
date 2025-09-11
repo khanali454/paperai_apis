@@ -7,8 +7,12 @@ Route::get('/', function () {
     return "Hello World! sir";
 });
 
-// command to run migration & seeding data 
+// command to run migration & seeding data
 Route::get('/migrate', function () {
     Artisan::call(command: 'migrate:fresh --seed');
     return "Database migrated and seeded!";
+});
+Route::get('/storage-link', function () {
+    Artisan::call(command: 'storage:link');
+    return "Link Created Successfully";
 });

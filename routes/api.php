@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ClassController;
+use App\Http\Controllers\Api\MaterialTypeController;
 use App\Http\Controllers\Api\PaperTemplateController;
 use App\Http\Controllers\Api\StudyMaterialController;
 use App\Http\Controllers\Api\SubjectController;
@@ -20,6 +21,7 @@ Route::get('/', function () {
 
 Route::post('/user/register', [AuthController::class, 'register']);
 Route::post('/user/login', [AuthController::class, 'login']);
+Route::get("/material-types",[MaterialTypeController::class,'index']);
 
 Route::prefix('user')->middleware(['auth:sanctum'])->group(function () {
     Route::get('/profile', [AuthController::class, 'profile']);
