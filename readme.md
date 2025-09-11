@@ -644,15 +644,14 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 
 # 📘 Study Material API Documentation
 
-## 📌 Model: `StudyMaterial`
 
 ### Fields
 
 | Field              | Type     | Description                               |
 | ------------------ | -------- | ----------------------------------------- |
 | `id`               | integer  | Unique identifier.                        |
-| `title`            | string   | Study material title (max **150 chars**). |
-| `description`      | string   | Optional description (max **500 chars**). |
+| `title`            | string   | Study material title (max **100 chars**). |
+| `description`      | string   | Optional description (max **200 chars**). |
 | `material_type_id` | integer  | FK → `material_types.id`.                 |
 | `class_id`         | integer  | FK → `student_classes.id`.                |
 | `subject_id`       | integer  | FK → `subjects.id`.                       |
@@ -673,8 +672,8 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 
 | Field              | Rule                                                                                 |
 | ------------------ | ------------------------------------------------------------------------------------ |
-| `title`            | required, string, max:150                                                            |
-| `description`      | nullable, string, max:500                                                            |
+| `title`            | required, string, max:100                                                            |
+| `description`      | nullable, string, max:200                                                            |
 | `material_type_id` | required, exists\:material\_types,id                                                 |
 | `class_id`         | required, exists\:student\_classes,id                                                |
 | `subject_id`       | required, exists\:subjects,id                                                        |
@@ -686,9 +685,39 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 
 ## 📌 Endpoints
 
+
+### 1️⃣ **List All Study Material Types**
+
+`GET /api/user/classes/study-materials/types`
+
+**Response (200 OK)**:
+```json
+{
+  "status": true,
+  "data": {
+    "material_types": [
+      {
+        "id":1,
+        "name":"Notes",
+        "created_at":"2025-08-30T07:22:03.000000Z",
+        "updated_at":"2025-08-30T07:22:03.000000Z"
+      },
+      {
+        "id":2,
+        "name":"Books",
+        "created_at":"2025-08-30T07:22:03.000000Z",
+        "updated_at":"2025-08-30T07:22:03.000000Z"
+      }
+    ]
+  },
+ "message": "Material types fetched successfully",
+}
+
+```
+
 ### 1️⃣ **List All Study Materials**
 
-`GET /api/study-materials`
+`GET /api/user/classes/study-materials`
 
 **Response (200 OK)**:
 
@@ -733,7 +762,7 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 
 ### 2️⃣ **Create Study Material**
 
-`POST /api/study-materials`
+`POST /api/user/classes/study-materials`
 
 **Request (multipart/form-data)**:
 
@@ -773,7 +802,7 @@ thumbnail=@cover.jpg
 
 ### 3️⃣ **Get Single Study Material**
 
-`GET /api/study-materials/{id}`
+`GET /api/user/classes/study-materials/{id}`
 
 **Response (200 OK)**:
 
@@ -816,7 +845,7 @@ thumbnail=@cover.jpg
 
 ### 4️⃣ **Update Study Material**
 
-`PUT /api/study-materials/{id}`
+`PUT /api/user/classes/study-materials/{id}`
 
 **Request (multipart/form-data)**:
 
@@ -847,7 +876,7 @@ file=@updated_notes.pdf
 
 ### 5️⃣ **Delete Study Material**
 
-`DELETE /api/study-materials/{id}`
+`DELETE /api/user/classes/study-materials/{id}`
 
 **Response (200 OK)**:
 

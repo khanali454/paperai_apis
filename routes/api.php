@@ -21,7 +21,6 @@ Route::get('/', function () {
 
 Route::post('/user/register', [AuthController::class, 'register']);
 Route::post('/user/login', [AuthController::class, 'login']);
-Route::get("/material-types",[MaterialTypeController::class,'index']);
 
 Route::prefix('user')->middleware(['auth:sanctum'])->group(function () {
     Route::get('/profile', [AuthController::class, 'profile']);
@@ -52,6 +51,8 @@ Route::prefix('user')->middleware(['auth:sanctum'])->group(function () {
         });
 
         Route::prefix('study-materials')->group(function () {
+            Route::get("/types",[MaterialTypeController::class,'index']);
+
             Route::get('/', [StudyMaterialController::class, 'index']);          // list all
             Route::post('/', [StudyMaterialController::class, 'store']);         // upload new
             Route::get('/{id}', [StudyMaterialController::class, 'show']);       // single material
