@@ -18,11 +18,6 @@ Route::get('/', function () {
     return response()->json(['status' => 'OK']);
 })->name('health');
 
-// Study Material Routes
-Route::prefix('study-materials')->group(function () {
-    Route::get('/', [StudyMaterialController::class, 'index']);
-});
-
 Route::post('/user/register', [AuthController::class, 'register']);
 Route::post('/user/login', [AuthController::class, 'login']);
 
@@ -54,7 +49,17 @@ Route::prefix('user')->middleware(['auth:sanctum'])->group(function () {
             Route::delete('/{subject}', [SubjectController::class, 'destroy']); // delete subject
         });
 
+        Route::prefix('study-materials')->group(function () {
+            Route::get('/', [StudyMaterialController::class, 'index']);          // list all
+            Route::post('/', [StudyMaterialController::class, 'store']);         // upload new
+            Route::get('/{id}', [StudyMaterialController::class, 'show']);       // single material
+            Route::put('/{id}', [StudyMaterialController::class, 'update']);     // update
+            Route::delete('/{id}', [StudyMaterialController::class, 'destroy']); // delete
+        });
+
     });
+
+    // create papers , paper sections , paper questions
 
     // All Subjects (regardless of class)
     Route::get('/subjects', [SubjectController::class, 'index']);

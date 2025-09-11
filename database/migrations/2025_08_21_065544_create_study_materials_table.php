@@ -15,7 +15,17 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
+            $table->string('thumbnail')->nullable();
 
+            $table->string('file_path');
+            $table->string('file_type')->nullable();
+            $table->string('file_name')->nullable();
+
+            
+            // material type relation
+            $table->unsignedBigInteger('material_type_id');
+            $table->foreign('material_type_id')->references('id')->on('material_types')->cascadeOnDelete()->cascadeOnUpdate();
+           
             // user relation
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
@@ -26,11 +36,6 @@ return new class extends Migration
 
             $table->unsignedBigInteger('subject_id');
             $table->foreign('subject_id')->references('id')->on('subjects')->cascadeOnDelete();
-
-            // Parent relation for hierarchy
-            $table->string('thumbnail')->nullable();
-          
-            $table->string('tags')->nullable();
             $table->boolean('is_public')->default(false);
             $table->timestamps();
         });

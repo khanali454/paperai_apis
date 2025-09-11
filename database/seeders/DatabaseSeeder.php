@@ -11,14 +11,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // questiontype seeder
         $this->call(UserSeeder::class);
         $this->call(StudentClassSeeder::class);
         $this->call(SubjectSeeder::class);
         $this->call(QuestionTypeSeeder::class);
         $this->call(PaperTemplateSeeder::class);
-        $this->call(StudyMaterialSeeder::class);
-
-        
+        $this->call(MaterialTypeSeeder::class);        
     }
 }

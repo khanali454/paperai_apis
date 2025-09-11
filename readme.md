@@ -642,6 +642,225 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 }
 ```
 
+# 📘 Study Material API Documentation
+
+## 📌 Model: `StudyMaterial`
+
+### Fields
+
+| Field              | Type     | Description                               |
+| ------------------ | -------- | ----------------------------------------- |
+| `id`               | integer  | Unique identifier.                        |
+| `title`            | string   | Study material title (max **150 chars**). |
+| `description`      | string   | Optional description (max **500 chars**). |
+| `material_type_id` | integer  | FK → `material_types.id`.                 |
+| `class_id`         | integer  | FK → `student_classes.id`.                |
+| `subject_id`       | integer  | FK → `subjects.id`.                       |
+| `user_id`          | integer  | FK → `users.id` (owner).                  |
+| `is_public`        | boolean  | Whether material is publicly available.   |
+| `file_path`        | string   | Path to uploaded file.                    |
+| `file_url`         | string   | Publicly accessible file URL.             |
+| `file_name`        | string   | Original filename.                        |
+| `file_type`        | string   | File extension.                           |
+| `thumbnail`        | string   | Path to thumbnail (optional).             |
+| `thumbnail_url`    | string   | Publicly accessible thumbnail URL.        |
+| `created_at`       | datetime | Timestamp.                                |
+| `updated_at`       | datetime | Timestamp.                                |
+
+---
+
+## 📌 Validation Rules
+
+| Field              | Rule                                                                                 |
+| ------------------ | ------------------------------------------------------------------------------------ |
+| `title`            | required, string, max:150                                                            |
+| `description`      | nullable, string, max:500                                                            |
+| `material_type_id` | required, exists\:material\_types,id                                                 |
+| `class_id`         | required, exists\:student\_classes,id                                                |
+| `subject_id`       | required, exists\:subjects,id                                                        |
+| `is_public`        | boolean                                                                              |
+| `file`             | required, file, mimes\:pdf,ppt,pptx,doc,docx,xls,xlsx,txt,png,jpeg,jpg, max:46080 KB |
+| `thumbnail`        | nullable, image, mimes\:jpeg,png,jpg, max:2048 KB                                    |
+
+---
+
+## 📌 Endpoints
+
+### 1️⃣ **List All Study Materials**
+
+`GET /api/study-materials`
+
+**Response (200 OK)**:
+
+```json
+{
+  "status": true,
+  "data": {
+    "materials": [
+      {
+        "id": 1,
+        "title": "Math Algebra Notes",
+        "description": "Chapter 1 to 3 summary",
+        "file_name": "algebra_notes.pdf",
+        "file_type": "pdf",
+        "file_url": "https://yourapp.com/storage/study_materials/files/algebra_notes.pdf",
+        "thumbnail_url": null,
+        "is_public": false,
+        "user": {
+          "id": 5,
+          "name": "John Doe"
+        },
+        "student_class": {
+          "id": 2,
+          "name": "Grade 10"
+        },
+        "subject": {
+          "id": 4,
+          "name": "Mathematics"
+        },
+        "type": {
+          "id": 1,
+          "name": "Notes"
+        }
+      }
+    ]
+  },
+  "message": "Study materials fetched successfully"
+}
+```
+
+---
+
+### 2️⃣ **Create Study Material**
+
+`POST /api/study-materials`
+
+**Request (multipart/form-data)**:
+
+```http
+title=Physics Notes
+description=Important formulas for exams
+material_type_id=1
+class_id=2
+subject_id=3
+is_public=true
+file=@notes.pdf
+thumbnail=@cover.jpg
+```
+
+**Response (201 Created)**:
+
+```json
+{
+  "status": true,
+  "data": {
+    "material": {
+      "id": 12,
+      "title": "Physics Notes",
+      "description": "Important formulas for exams",
+      "file_name": "notes.pdf",
+      "file_type": "pdf",
+      "file_url": "https://yourapp.com/storage/study_materials/files/notes.pdf",
+      "thumbnail_url": "https://yourapp.com/storage/study_materials/thumbnails/cover.jpg",
+      "is_public": true
+    }
+  },
+  "message": "Study material created successfully"
+}
+```
+
+---
+
+### 3️⃣ **Get Single Study Material**
+
+`GET /api/study-materials/{id}`
+
+**Response (200 OK)**:
+
+```json
+{
+  "status": true,
+  "data": {
+    "material": {
+      "id": 12,
+      "title": "Physics Notes",
+      "description": "Important formulas for exams",
+      "file_name": "notes.pdf",
+      "file_type": "pdf",
+      "file_url": "https://yourapp.com/storage/study_materials/files/notes.pdf",
+      "thumbnail_url": "https://yourapp.com/storage/study_materials/thumbnails/cover.jpg",
+      "is_public": true,
+      "user": {
+        "id": 5,
+        "name": "John Doe"
+      },
+      "student_class": {
+        "id": 2,
+        "name": "Grade 10"
+      },
+      "subject": {
+        "id": 3,
+        "name": "Physics"
+      },
+      "type": {
+        "id": 1,
+        "name": "Notes"
+      }
+    }
+  },
+  "message": "Study material retrieved successfully"
+}
+```
+
+---
+
+### 4️⃣ **Update Study Material**
+
+`PUT /api/study-materials/{id}`
+
+**Request (multipart/form-data)**:
+
+```http
+title=Updated Physics Notes
+file=@updated_notes.pdf
+```
+
+**Response (200 OK)**:
+
+```json
+{
+  "status": true,
+  "data": {
+    "material": {
+      "id": 12,
+      "title": "Updated Physics Notes",
+      "file_name": "updated_notes.pdf",
+      "file_type": "pdf",
+      "file_url": "https://yourapp.com/storage/study_materials/files/updated_notes.pdf"
+    }
+  },
+  "message": "Study material updated successfully"
+}
+```
+
+---
+
+### 5️⃣ **Delete Study Material**
+
+`DELETE /api/study-materials/{id}`
+
+**Response (200 OK)**:
+
+```json
+{
+  "status": true,
+  "message": "Study material deleted successfully"
+}
+```
+
+
+
+
 ---
 
 ## 🛠️ Notes
