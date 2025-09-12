@@ -19,7 +19,7 @@ class StudyMaterialController extends Controller
         $materials = StudyMaterial::with(['user', 'studentClass', 'subject', 'type'])
             ->where('user_id', Auth::id())
             ->latest()
-            ->get();
+            ->paginate("10");
 
         return response()->json([
             'status'  => true,
