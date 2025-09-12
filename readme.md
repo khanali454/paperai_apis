@@ -688,7 +688,7 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 
 ### 1️⃣ **List All Study Material Types**
 
-`GET /api/user/classes/study-materials/types`
+`GET /api/user/study-materials/types`
 
 **Response (200 OK)**:
 ```json
@@ -717,7 +717,7 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 
 ### 1️⃣ **List All Study Materials**
 
-`GET /api/user/classes/study-materials`
+`GET /api/user/study-materials`
 
 **Response (200 OK)**:
 
@@ -762,7 +762,7 @@ Authorization: Bearer YOUR_AUTH_TOKEN
 
 ### 2️⃣ **Create Study Material**
 
-`POST /api/user/classes/study-materials`
+`POST /api/user/study-materials`
 
 **Request (multipart/form-data)**:
 
@@ -802,7 +802,7 @@ thumbnail=@cover.jpg
 
 ### 3️⃣ **Get Single Study Material**
 
-`GET /api/user/classes/study-materials/{id}`
+`GET /api/user/study-materials/{id}`
 
 **Response (200 OK)**:
 
@@ -845,7 +845,7 @@ thumbnail=@cover.jpg
 
 ### 4️⃣ **Update Study Material**
 
-`PUT /api/user/classes/study-materials/{id}`
+`PUT /api/user/study-materials/{id}`
 
 **Request (multipart/form-data)**:
 
@@ -876,7 +876,7 @@ file=@updated_notes.pdf
 
 ### 5️⃣ **Delete Study Material**
 
-`DELETE /api/user/classes/study-materials/{id}`
+`DELETE /api/user/study-materials/{id}`
 
 **Response (200 OK)**:
 
