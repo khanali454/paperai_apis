@@ -50,7 +50,9 @@ Route::prefix('user')->middleware(['auth:sanctum'])->group(function () {
             Route::delete('/{subject}', [SubjectController::class, 'destroy']); // delete subject
         });
 
-        Route::prefix('study-materials')->group(function () {
+    });
+
+    Route::prefix('study-materials')->group(function () {
             Route::get("/types",[MaterialTypeController::class,'index']);
 
             Route::get('/', [StudyMaterialController::class, 'index']);          // list all
@@ -59,8 +61,6 @@ Route::prefix('user')->middleware(['auth:sanctum'])->group(function () {
             Route::put('/{id}', [StudyMaterialController::class, 'update']);     // update
             Route::delete('/{id}', [StudyMaterialController::class, 'destroy']); // delete
         });
-
-    });
 
     // create papers , paper sections , paper questions
 
