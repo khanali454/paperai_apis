@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('paper_sections', function (Blueprint $table) {
+        Schema::create('sub_questions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('paper_id');
-            $table->string("title");
-            $table->foreign('paper_id')->references('id')->on('papers')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }
@@ -25,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('paper_sections');
+        Schema::dropIfExists('sub_questions');
     }
 };

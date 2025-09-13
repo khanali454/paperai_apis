@@ -27,12 +27,12 @@ class StudyMaterial extends Model
         return $this->belongsTo(MaterialType::class, 'material_type_id');
     }
 
-    public function getFileUrlAttribute()
+    public function getFilePathAttribute()
     {
         return $this->file_path ? asset('storage/' . $this->file_path) : null;
     }
 
-    public function getThumbnailUrlAttribute()
+    public function getThumbnailAttribute()
     {
         return $this->thumbnail ? asset('storage/' . $this->thumbnail) : null;
     }
