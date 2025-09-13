@@ -757,6 +757,22 @@ Authorization: Bearer YOUR_AUTH_TOKEN
   "message": "Study materials fetched successfully"
 }
 ```
+---
+
+### **Query Parameters**
+
+| Parameter    | Type    | Required | Description                                       |
+| ------------ | ------- | -------- | ------------------------------------------------- |
+| `search`     | string  | No       | Search keyword to match `title` or `description`. |
+| `class_id`   | integer | No       | Filter by class ID.                               |
+| `subject_id` | integer | No       | Filter by subject ID.                             |
+| `type_id`    | integer | No       | Filter by type ID.                                |
+| `visibility` | string  | No       | Filter by visibility (`public`, `private`, etc.). |
+| `per_page`   | integer | No       | Number of results per page (default: `10`).       |
+| `page`       | integer | No       | Pagination page number (default: `1`).            |
+
+---
+
 
 ---
 

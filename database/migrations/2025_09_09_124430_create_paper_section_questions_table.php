@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('paper_section_questions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('paper_section_id')->constrained('paper_sections')->onDelete('cascade');
-            $table->unsignedSmallInteger('question_type_id')->constrained('question_types')->onDelete('cascade');
-            $table->text('question_text');
+           $table->text('question_statement');
             $table->timestamps();
         });
     }

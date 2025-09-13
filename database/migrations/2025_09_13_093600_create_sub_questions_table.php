@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('sub_questions', function (Blueprint $table) {
             $table->id();
+             $table->unsignedSmallInteger('question_type_id')->constrained('question_types')->onDelete('cascade');
+            
             $table->timestamps();
         });
     }

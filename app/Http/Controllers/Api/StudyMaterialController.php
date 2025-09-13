@@ -14,12 +14,41 @@ class StudyMaterialController extends Controller
     /**
      * Get all study materials for logged in user
      */
-    public function index()
+    public function index(Request $request)
     {
         $materials = StudyMaterial::with(['user', 'studentClass', 'subject', 'type'])
             ->where('user_id', Auth::id())
+
+        // 🔎 Search filter (title or description)
+            ->when($request->has('search') && ! empty($request->search), function ($query) use ($request) {
+                $query->where(function ($q) use ($request) {
+                    $q->where('title', 'like', '%' . $request->search . '%')
+                        ->orWhere('description', 'like', '%' . $request->search . '%');
+                });
+            })
+
+        // 🎓 Filter by class_id
+            ->when($request->filled('class_id'), function ($query) use ($request) {
+                $query->where('class_id', $request->class_id);
+            })
+
+        // 📘 Filter by subject_id
+            ->when($request->filled('subject_id'), function ($query) use ($request) {
+                $query->where('subject_id', $request->subject_id);
+            })
+
+        // 📝 Filter by type_id
+            ->when($request->filled('type_id'), function ($query) use ($request) {
+                $query->where('type_id', $request->type_id);
+            })
+
+        // 👀 Filter by visibility (e.g. public/private)
+            ->when($request->filled('visibility'), function ($query) use ($request) {
+                $query->where('visibility', $request->visibility);
+            })
+
             ->latest()
-            ->paginate("10");
+            ->paginate($request->get('per_page', 10)); // default 10 per page
 
         return response()->json([
             'status'  => true,
@@ -29,7 +58,6 @@ class StudyMaterialController extends Controller
             'message' => 'Study materials fetched successfully',
         ]);
     }
-
     /**
      * Store a new study material
      */
