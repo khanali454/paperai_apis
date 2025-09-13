@@ -39,16 +39,16 @@ class StudyMaterialController extends Controller
 
         // 📝 Filter by type_id
             ->when($request->filled('type_id'), function ($query) use ($request) {
-                $query->where('type_id', $request->type_id);
+                $query->where('material_type_id', $request->type_id);
             })
 
         // 👀 Filter by visibility (e.g. public/private)
             ->when($request->filled('visibility'), function ($query) use ($request) {
-                $query->where('visibility', $request->visibility);
+                $query->where('is_public', $request->visibility);
             })
 
             ->latest()
-            ->paginate($request->get('per_page', 10)); // default 10 per page
+            ->paginate($request->get('per_page', 10)); 
 
         return response()->json([
             'status'  => true,
