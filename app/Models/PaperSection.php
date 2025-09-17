@@ -25,6 +25,6 @@ class PaperSection extends Model
 
     public function sectionGroups(): HasMany
     {
-        return $this->hasMany(SectionGroup::class);
+        return $this->hasMany(SectionGroup::class,'section_id');
     }
 }
