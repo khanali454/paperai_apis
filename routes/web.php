@@ -9,7 +9,7 @@ Route::get('/', function () {
 });
 
 Route::get('/papers', function () {
-    return Paper::with('sections')->get();
+    return Paper::with('sections','class','subject')->get();
 });
 // command to run migration & seeding data
 Route::get('/migrate', function () {
