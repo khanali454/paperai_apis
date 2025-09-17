@@ -27,7 +27,6 @@ class SectionGroupController extends Controller
 
         $validator = Validator::make($request->all(), [
             'question_type_id' => 'required|exists:question_types,id',
-            'title' => 'required|string|max:255',
             'instructions' => 'nullable|string',
             'logic' => 'nullable|string',
             'order' => 'required|integer|min:0',
@@ -79,7 +78,6 @@ class SectionGroupController extends Controller
 
         $validator = Validator::make($request->all(), [
             'question_type_id' => 'sometimes|required|exists:question_types,id',
-            'title' => 'sometimes|required|string|max:255',
             'instructions' => 'nullable|string',
             'logic' => 'nullable|string',
             'order' => 'sometimes|required|integer|min:0',

@@ -14,7 +14,6 @@ class SectionGroup extends Model
     protected $fillable = [
         'section_id',
         'question_type_id',
-        'title',
         'instructions',
         'logic',
         'order'

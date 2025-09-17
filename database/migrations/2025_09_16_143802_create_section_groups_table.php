@@ -12,7 +12,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('section_id');
             $table->unsignedBigInteger('question_type_id');
-            $table->string("title");
             $table->text("instructions")->nullable();
             $table->string("logic")->nullable();
             $table->integer("order")->default(0);
