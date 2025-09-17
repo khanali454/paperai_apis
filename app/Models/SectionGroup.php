@@ -2,11 +2,36 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class SectionGroup extends Model
 {
-    public function questions(){
-        return $this->hasMany(PaperQuestion::class,'section_group_id')->with('sub_questions');
+    use HasFactory;
+
+    protected $fillable = [
+        'section_id',
+        'question_type_id',
+        'title',
+        'instructions',
+        'logic',
+        'order'
+    ];
+
+    public function section(): BelongsTo
+    {
+        return $this->belongsTo(PaperSection::class, 'section_id');
+    }
+
+    public function questionType(): BelongsTo
+    {
+        return $this->belongsTo(QuestionType::class);
+    }
+
+    public function questions(): HasMany
+    {
+        return $this->hasMany(PaperQuestion::class);
     }
 }

@@ -3,7 +3,12 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ClassController;
 use App\Http\Controllers\Api\MaterialTypeController;
+use App\Http\Controllers\Api\PaperController;
+use App\Http\Controllers\Api\PaperQuestionController;
+use App\Http\Controllers\Api\PaperSectionController;
 use App\Http\Controllers\Api\PaperTemplateController;
+use App\Http\Controllers\Api\QuestionOptionController;
+use App\Http\Controllers\Api\SectionGroupController;
 use App\Http\Controllers\Api\StudyMaterialController;
 use App\Http\Controllers\Api\SubjectController;
 use Illuminate\Http\Request;
@@ -66,5 +71,29 @@ Route::prefix('user')->middleware(['auth:sanctum'])->group(function () {
 
     // All Subjects (regardless of class)
     Route::get('/subjects', [SubjectController::class, 'index']);
+
+
+     // Paper routes
+    Route::apiResource('papers', PaperController::class);
+    
+    // Paper sections routes
+    Route::post('papers/{paper}/sections', [PaperSectionController::class, 'store']);
+    Route::put('papers/{paper}/sections/{section}', [PaperSectionController::class, 'update']);
+    Route::delete('papers/{paper}/sections/{section}', [PaperSectionController::class, 'destroy']);
+    
+    // Section groups routes
+    Route::post('sections/{section}/groups', [SectionGroupController::class, 'store']);
+    Route::put('sections/{section}/groups/{group}', [SectionGroupController::class, 'update']);
+    Route::delete('sections/{section}/groups/{group}', [SectionGroupController::class, 'destroy']);
+    
+    // Questions routes
+    Route::post('groups/{group}/questions', [PaperQuestionController::class, 'store']);
+    Route::put('groups/{group}/questions/{question}', [PaperQuestionController::class, 'update']);
+    Route::delete('groups/{group}/questions/{question}', [PaperQuestionController::class, 'destroy']);
+    
+    // Question options routes
+    Route::post('questions/{question}/options', [QuestionOptionController::class, 'store']);
+    Route::put('questions/{question}/options/{option}', [QuestionOptionController::class, 'update']);
+    Route::delete('questions/{question}/options/{option}', [QuestionOptionController::class, 'destroy']);
 
 });
