@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class McqOption extends Model
+class PaperQuestion extends Model
 {
     //
 }

@@ -1,40 +1,101 @@
 <?php
+
 namespace Database\Seeders;
 
-use App\Models\QuestionType;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class QuestionTypeSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        QuestionType::create([
-            'name'        => 'Multiple Choice Questions',
-            'description' => 'A question with multiple answer options, where only one is correct.',
-        ]);
+        $questionTypes = [
+            // MCQ - No sub questions
+            [
+                'name' => 'Multiple Choice Questions',
+                'slug' => 'mcq',
+                'description' => 'Questions with multiple choices and one correct answer',
+                'has_options' => true,
+                'has_correct_answer' => true,
+                'can_have_sub_questions' => false,
+                'has_paragraph' => false,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            // True/False - No sub questions
+            [
+                'name' => 'True/False Questions',
+                'slug' => 'true-false',
+                'description' => 'Questions with true or false options',
+                'has_options' => true,
+                'has_correct_answer' => true,
+                'can_have_sub_questions' => false,
+                'has_paragraph' => false,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            // Fill in Blanks - No sub questions
+            [
+                'name' => 'Fill in the Blanks',
+                'slug' => 'fill-in-blanks',
+                'description' => 'Questions requiring text input with correct answer',
+                'has_options' => false,
+                'has_correct_answer' => true,
+                'can_have_sub_questions' => false,
+                'has_paragraph' => false,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            // Short Answer - Can have sub questions, optional correct answer
+            [
+                'name' => 'Short Answer Questions',
+                'slug' => 'short-answer',
+                'description' => 'Short answer questions with optional correct answer',
+                'has_options' => false,
+                'has_correct_answer' => false, // Optional
+                'can_have_sub_questions' => true,
+                'has_paragraph' => false,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            // Long Answer - Can have sub questions, optional correct answer
+            [
+                'name' => 'Long Answer Questions',
+                'slug' => 'long-answer',
+                'description' => 'Long answer questions with optional correct answer',
+                'has_options' => false,
+                'has_correct_answer' => false, // Optional
+                'can_have_sub_questions' => true,
+                'has_paragraph' => false,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            // Paragraph Questions - Has paragraph text and sub questions
+            [
+                'name' => 'Paragraph Questions',
+                'slug' => 'paragraph',
+                'description' => 'Questions based on a paragraph with sub-questions',
+                'has_options' => false,
+                'has_correct_answer' => false,
+                'can_have_sub_questions' => true,
+                'has_paragraph' => true,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            // Conditional Questions - Has logic and sub questions
+            [
+                'name' => 'Conditional Questions',
+                'slug' => 'conditional',
+                'description' => 'Questions with conditional logic (AND/OR) and sub-questions',
+                'has_options' => false,
+                'has_correct_answer' => false,
+                'can_have_sub_questions' => true,
+                'has_paragraph' => false,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]
+        ];
 
-        QuestionType::create([
-            'name'        => 'Fill in the Blanks',
-            'description' => 'A question where the respondent fills in missing words or phrases.',
-        ]);
-
-        QuestionType::create([
-            'name'        => 'True/False',
-            'description' => 'A question that can be answered with either true or false.',
-        ]);
-
-        QuestionType::create([
-            'name'        => 'Short Answer',
-            'description' => 'A question that requires a brief written response.',
-        ]);
-
-        QuestionType::create([
-            'name'        => 'Long Answer',
-            'description' => 'A question that requires a detailed written response.',
-        ]);
-
+        DB::table('question_types')->insert($questionTypes);
     }
 }

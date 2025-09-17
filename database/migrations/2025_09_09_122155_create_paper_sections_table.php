@@ -6,23 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('paper_sections', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('paper_id');
             $table->string("title");
-            $table->foreign('paper_id')->references('id')->on('papers')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->text("instructions")->nullable();
+            $table->integer("order")->default(0);
             $table->timestamps();
+            
+            $table->foreign('paper_id')->references('id')->on('papers')->cascadeOnDelete();
+            
+            $table->index(['paper_id', 'order']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('paper_sections');

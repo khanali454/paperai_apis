@@ -6,22 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('question_types', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('slug')->unique();
             $table->string('description')->nullable();
+            $table->boolean('has_options')->default(false);
+            $table->boolean('has_correct_answer')->default(false);
+            $table->boolean('can_have_sub_questions')->default(false);
+            $table->boolean('has_paragraph')->default(false);
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('question_types');

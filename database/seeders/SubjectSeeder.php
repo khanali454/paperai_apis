@@ -19,8 +19,8 @@ class SubjectSeeder extends Seeder
         ]);
 
         Subject::create([
-            'name' => 'Science',
-            'description' => 'Science for 8th grade students',
+            'name' => 'Physics',
+            'description' => 'Physics for 8th grade students',
             'class_id' => 1,
         ]);
 

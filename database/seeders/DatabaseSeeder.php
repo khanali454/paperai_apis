@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SubjectSeeder::class);
         $this->call(QuestionTypeSeeder::class);
         $this->call(PaperTemplateSeeder::class);
-        $this->call(MaterialTypeSeeder::class);        
+        $this->call(MaterialTypeSeeder::class);  
+        $this->call(SamplePaperSeeder::class);      
     }
 }
