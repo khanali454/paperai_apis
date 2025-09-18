@@ -1,10 +1,8 @@
 <?php
-
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\PaperQuestion;
-use App\Models\QuestionOption;
 use App\Models\QuestionType;
 use App\Models\SectionGroup;
 use Illuminate\Http\Request;
@@ -21,9 +19,9 @@ class PaperQuestionController extends Controller
                 $query->where('user_id', Auth::id());
             })->find($groupId);
 
-        if (!$group) {
+        if (! $group) {
             return response()->json([
-                'status' => false,
+                'status'  => false,
                 'message' => 'Section group not found. Please check the group ID.',
             ], 404);
         }
@@ -32,28 +30,28 @@ class PaperQuestionController extends Controller
 
         // Base validation rules
         $validationRules = [
-            'question_text' => 'nullable|string',
+            'question_text'  => 'nullable|string',
             'paragraph_text' => 'nullable|string',
             'correct_answer' => 'nullable|string',
-            'marks' => 'required|integer|min:0',
-            'order' => 'required|integer|min:0',
-            'sub_questions' => 'nullable|array',
-            'options' => 'nullable|array',
+            'marks'          => 'required|integer|min:0',
+            'order'          => 'required|integer|min:0',
+            'sub_questions'  => 'nullable|array',
+            'options'        => 'nullable|array',
         ];
 
         // Add validation for sub-questions if provided
         if ($request->has('sub_questions')) {
-            $validationRules['sub_questions.*.question_text'] = 'required|string';
+            $validationRules['sub_questions.*.question_text']  = 'required|string';
             $validationRules['sub_questions.*.correct_answer'] = 'nullable|string';
-            $validationRules['sub_questions.*.marks'] = 'required|integer|min:0';
-            $validationRules['sub_questions.*.sub_order'] = 'required|integer|min:0';
+            $validationRules['sub_questions.*.marks']          = 'required|integer|min:0';
+            $validationRules['sub_questions.*.sub_order']      = 'required|integer|min:0';
         }
 
         // Add validation for options if provided
         if ($request->has('options')) {
             $validationRules['options.*.option_text'] = 'required|string';
-            $validationRules['options.*.is_correct'] = 'required|boolean';
-            $validationRules['options.*.order'] = 'required|integer|min:0';
+            $validationRules['options.*.is_correct']  = 'required|boolean';
+            $validationRules['options.*.order']       = 'required|integer|min:0';
         }
 
         // Add question type specific validations
@@ -61,64 +59,77 @@ class PaperQuestionController extends Controller
             case 'mcq':
             case 'true-false':
                 $validationRules['question_text'] = 'required|string';
-                $validationRules['options'] = 'required|array|min:2';
+                $validationRules['options']       = 'required|array|min:2';
                 $validationRules['sub_questions'] = 'prohibited';
                 break;
-                
+
             case 'fill-in-blanks':
-                $validationRules['question_text'] = 'required|string';
+                $validationRules['question_text']  = 'required|string';
                 $validationRules['correct_answer'] = 'required|string';
-                $validationRules['options'] = 'prohibited';
-                $validationRules['sub_questions'] = 'prohibited';
+                $validationRules['options']        = 'prohibited';
+                $validationRules['sub_questions']  = 'prohibited';
                 break;
-                
+
             case 'short-answer':
             case 'long-answer':
                 $validationRules['question_text'] = 'required|string';
-                $validationRules['options'] = 'prohibited';
+                $validationRules['options']       = 'prohibited';
                 // For questions with sub-questions, main question marks should be 0
                 if ($request->has('sub_questions')) {
                     $validationRules['marks'] = 'nullable|integer|min:0';
                 }
                 break;
-                
+
             case 'paragraph':
                 $validationRules['paragraph_text'] = 'required|string';
-                $validationRules['sub_questions'] = 'required|array|min:1';
-                $validationRules['options'] = 'prohibited';
-                $validationRules['marks'] = 'nullable|integer|min:0';
+                $validationRules['sub_questions']  = 'required|array|min:1';
+                $validationRules['options']        = 'prohibited';
+                $validationRules['marks']          = 'nullable|integer|min:0';
                 break;
-                
+
             case 'conditional':
                 $validationRules['question_text'] = 'required|string';
                 $validationRules['sub_questions'] = 'required|array|min:2';
-                $validationRules['options'] = 'prohibited';
-                $validationRules['marks'] = 'nullable|integer|min:0';
+                $validationRules['options']       = 'prohibited';
+                $validationRules['marks']         = 'nullable|integer|min:0';
                 break;
         }
 
         $validator = Validator::make($request->all(), $validationRules, [
-            'question_text.required' => 'Question text is required for this question type.',
-            'paragraph_text.required' => 'Paragraph text is required for paragraph questions.',
-            'options.required' => 'Options are required for multiple choice and true/false questions.',
-            'options.min' => 'At least 2 options are required for multiple choice questions.',
-            'correct_answer.required' => 'Correct answer is required for fill in the blanks questions.',
-            'sub_questions.required' => 'Sub questions are required for paragraph and conditional questions.',
-            'sub_questions.min' => 'At least 1 sub question is required.',
-            'options.prohibited' => 'Options are not allowed for this question type.',
-            'sub_questions.prohibited' => 'Sub questions are not allowed for this question type.',
+            'question_text.required'                 => 'Question text is required for this question type.',
+            'paragraph_text.required'                => 'Paragraph text is required for paragraph questions.',
+            'options.required'                       => 'Options are required for this question type.',
+            'options.min'                            => 'At least 2 options are required for multiple choice questions.',
+            'correct_answer.required'                => 'Correct answer is required for fill in the blanks questions.',
+            'sub_questions.required'                 => 'Sub questions are required for paragraph and conditional questions.',
+            'sub_questions.min'                      => 'At least 1 sub question is required.',
+            'options.prohibited'                     => 'Options are not allowed for this question type.',
+            'sub_questions.prohibited'               => 'Sub questions are not allowed for this question type.',
             'sub_questions.*.question_text.required' => 'Each sub question must have text.',
-            'sub_questions.*.marks.required' => 'Each sub question must have marks.',
-            'sub_questions.*.sub_order.required' => 'Each sub question must have an order.',
-            'options.*.option_text.required' => 'Each option must have text.',
-            'options.*.is_correct.required' => 'Each option must specify if it is correct or not.',
-            'options.*.order.required' => 'Each option must have an order.',
+            'sub_questions.*.marks.required'         => 'Each sub question must have marks.',
+            'sub_questions.*.sub_order.required'     => 'Each sub question must have an order.',
+            'options.*.option_text.required'         => 'Each option must have text.',
+            'options.*.is_correct.required'          => 'Each option must specify if it is correct or not.',
+            'options.*.order.required'               => 'Each option must have an order.',
         ]);
+
+        // custom rule for option -  validation
+        $validator->after(function ($validator) use ($request) {
+            if ($request->has('options')) {
+                $correctCount = collect($request->input('options'))
+                    ->where('is_correct', true)
+                    ->count();
+
+                if ($correctCount !== 1) {
+                    $validator->errors()->add('options', 'Exactly one option must be marked as correct.');
+                }
+            }
+        });
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => false,
-                'data' => [
+                'status'  => false,
+                'data'    => [
                     "errors" => $validator->errors(),
                 ],
                 'message' => $validator->errors()->first(),
@@ -127,7 +138,7 @@ class PaperQuestionController extends Controller
 
         // Prepare question data
         $questionData = $request->only(['question_text', 'paragraph_text', 'correct_answer', 'marks', 'order']);
-        
+
         // For questions with sub-questions, set main question marks to 0
         if ($request->has('sub_questions') && in_array($questionType->slug, ['short-answer', 'long-answer', 'paragraph', 'conditional'])) {
             $questionData['marks'] = 0;
@@ -148,12 +159,12 @@ class PaperQuestionController extends Controller
             foreach ($request->sub_questions as $subQuestionData) {
                 $subQuestion = $question->subQuestions()->create([
                     'section_group_id' => $groupId,
-                    'question_text' => $subQuestionData['question_text'],
-                    'correct_answer' => $subQuestionData['correct_answer'] ?? null,
-                    'marks' => $subQuestionData['marks'],
-                    'sub_order' => $subQuestionData['sub_order'],
+                    'question_text'    => $subQuestionData['question_text'],
+                    'correct_answer'   => $subQuestionData['correct_answer'] ?? null,
+                    'marks'            => $subQuestionData['marks'],
+                    'sub_order'        => $subQuestionData['sub_order'],
                 ]);
-                
+
                 $totalSubQuestionMarks += $subQuestion->marks;
             }
         }
@@ -164,8 +175,8 @@ class PaperQuestionController extends Controller
         $paper->save();
 
         return response()->json([
-            'status' => true,
-            'data' => [
+            'status'  => true,
+            'data'    => [
                 'question' => $question->load(['options', 'subQuestions']),
             ],
             'message' => 'Question created successfully',
@@ -180,18 +191,18 @@ class PaperQuestionController extends Controller
                 $query->where('user_id', Auth::id());
             })->find($groupId);
 
-        if (!$group) {
+        if (! $group) {
             return response()->json([
-                'status' => false,
+                'status'  => false,
                 'message' => 'Section group not found. Please check the group ID.',
             ], 404);
         }
 
         $question = $group->questions()->with('subQuestions')->find($questionId);
 
-        if (!$question) {
+        if (! $question) {
             return response()->json([
-                'status' => false,
+                'status'  => false,
                 'message' => 'Question not found. Please check the question ID.',
             ], 404);
         }
@@ -200,11 +211,11 @@ class PaperQuestionController extends Controller
 
         // Base validation rules
         $validationRules = [
-            'question_text' => 'nullable|string',
+            'question_text'  => 'nullable|string',
             'paragraph_text' => 'nullable|string',
             'correct_answer' => 'nullable|string',
-            'marks' => 'sometimes|integer|min:0',
-            'order' => 'sometimes|integer|min:0',
+            'marks'          => 'sometimes|integer|min:0',
+            'order'          => 'sometimes|integer|min:0',
         ];
 
         // Add question type specific validations
@@ -213,12 +224,12 @@ class PaperQuestionController extends Controller
             case 'true-false':
                 $validationRules['question_text'] = 'sometimes|required|string';
                 break;
-                
+
             case 'fill-in-blanks':
-                $validationRules['question_text'] = 'sometimes|required|string';
+                $validationRules['question_text']  = 'sometimes|required|string';
                 $validationRules['correct_answer'] = 'sometimes|required|string';
                 break;
-                
+
             case 'short-answer':
             case 'long-answer':
                 $validationRules['question_text'] = 'sometimes|required|string';
@@ -227,32 +238,32 @@ class PaperQuestionController extends Controller
                     $validationRules['marks'] = 'nullable|integer|min:0';
                 }
                 break;
-                
+
             case 'paragraph':
-                if (!$question->parent_question_id) {
+                if (! $question->parent_question_id) {
                     $validationRules['paragraph_text'] = 'sometimes|required|string';
-                    $validationRules['marks'] = 'nullable|integer|min:0';
+                    $validationRules['marks']          = 'nullable|integer|min:0';
                 }
                 break;
-                
+
             case 'conditional':
-                if (!$question->parent_question_id) {
+                if (! $question->parent_question_id) {
                     $validationRules['question_text'] = 'sometimes|required|string';
-                    $validationRules['marks'] = 'nullable|integer|min:0';
+                    $validationRules['marks']         = 'nullable|integer|min:0';
                 }
                 break;
         }
 
         $validator = Validator::make($request->all(), $validationRules, [
-            'question_text.required' => 'Question text is required for this question type.',
+            'question_text.required'  => 'Question text is required for this question type.',
             'paragraph_text.required' => 'Paragraph text is required for paragraph questions.',
             'correct_answer.required' => 'Correct answer is required for fill in the blanks questions.',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => false,
-                'data' => [
+                'status'  => false,
+                'data'    => [
                     "errors" => $validator->errors(),
                 ],
                 'message' => 'Validation failed. Please check your input.',
@@ -261,7 +272,7 @@ class PaperQuestionController extends Controller
 
         $oldMarks = $question->marks;
         $question->update($request->only(['question_text', 'paragraph_text', 'correct_answer', 'marks', 'order']));
-        
+
         // Update paper total marks if marks changed
         if ($oldMarks != $question->marks) {
             $paper = $group->section->paper;
@@ -270,8 +281,8 @@ class PaperQuestionController extends Controller
         }
 
         return response()->json([
-            'status' => true,
-            'data' => [
+            'status'  => true,
+            'data'    => [
                 'question' => $question->load(['options', 'subQuestions']),
             ],
             'message' => 'Question updated successfully',
@@ -285,31 +296,31 @@ class PaperQuestionController extends Controller
             $query->where('user_id', Auth::id());
         })->find($groupId);
 
-        if (!$group) {
+        if (! $group) {
             return response()->json([
-                'status' => false,
+                'status'  => false,
                 'message' => 'Section group not found. Please check the group ID.',
             ], 404);
         }
 
         $question = $group->questions()->with('subQuestions')->find($questionId);
 
-        if (!$question) {
+        if (! $question) {
             return response()->json([
-                'status' => false,
+                'status'  => false,
                 'message' => 'Question not found. Please check the question ID.',
             ], 404);
         }
 
         // Update paper total marks
-        $paper = $group->section->paper;
+        $paper      = $group->section->paper;
         $totalMarks = $question->marks;
-        
+
         // Add marks from sub-questions if this is a parent question
         if ($question->subQuestions->count() > 0) {
             $totalMarks += $question->subQuestions->sum('marks');
         }
-        
+
         $paper->total_marks -= $totalMarks;
         $paper->save();
 
@@ -344,7 +355,7 @@ class PaperQuestionController extends Controller
         }
 
         return response()->json([
-            'status' => true,
+            'status'  => true,
             'message' => 'Question deleted successfully',
         ]);
     }
@@ -357,47 +368,47 @@ class PaperQuestionController extends Controller
                 $query->where('user_id', Auth::id());
             })->find($groupId);
 
-        if (!$group) {
+        if (! $group) {
             return response()->json([
-                'status' => false,
+                'status'  => false,
                 'message' => 'Section group not found. Please check the group ID.',
             ], 404);
         }
 
         $question = $group->questions()->find($questionId);
 
-        if (!$question) {
+        if (! $question) {
             return response()->json([
-                'status' => false,
+                'status'  => false,
                 'message' => 'Question not found. Please check the question ID.',
             ], 404);
         }
 
         // Check if question type supports options
-        if (!$group->questionType->has_options) {
+        if (! $group->questionType->has_options) {
             return response()->json([
-                'status' => false,
+                'status'  => false,
                 'message' => 'This question type does not support options.',
             ], 422);
         }
 
         $validator = Validator::make($request->all(), [
-            'options' => 'required|array|min:2',
+            'options'               => 'required|array|min:2',
             'options.*.option_text' => 'required|string',
-            'options.*.is_correct' => 'required|boolean',
-            'options.*.order' => 'required|integer|min:0',
+            'options.*.is_correct'  => 'required|boolean',
+            'options.*.order'       => 'required|integer|min:0',
         ], [
-            'options.required' => 'Options are required.',
-            'options.min' => 'At least 2 options are required.',
+            'options.required'               => 'Options are required.',
+            'options.min'                    => 'At least 2 options are required.',
             'options.*.option_text.required' => 'Each option must have text.',
-            'options.*.is_correct.required' => 'Each option must specify if it is correct or not.',
-            'options.*.order.required' => 'Each option must have an order.',
+            'options.*.is_correct.required'  => 'Each option must specify if it is correct or not.',
+            'options.*.order.required'       => 'Each option must have an order.',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => false,
-                'data' => [
+                'status'  => false,
+                'data'    => [
                     "errors" => $validator->errors(),
                 ],
                 'message' => 'Validation failed. Please check your input.',
@@ -413,8 +424,8 @@ class PaperQuestionController extends Controller
         }
 
         return response()->json([
-            'status' => true,
-            'data' => [
+            'status'  => true,
+            'data'    => [
                 'question' => $question->load('options'),
             ],
             'message' => 'Options updated successfully',
@@ -429,48 +440,48 @@ class PaperQuestionController extends Controller
                 $query->where('user_id', Auth::id());
             })->find($groupId);
 
-        if (!$group) {
+        if (! $group) {
             return response()->json([
-                'status' => false,
+                'status'  => false,
                 'message' => 'Section group not found. Please check the group ID.',
             ], 404);
         }
 
         $question = $group->questions()->find($questionId);
 
-        if (!$question) {
+        if (! $question) {
             return response()->json([
-                'status' => false,
+                'status'  => false,
                 'message' => 'Question not found. Please check the question ID.',
             ], 404);
         }
 
         // Check if question type supports sub-questions
-        if (!$group->questionType->can_have_sub_questions) {
+        if (! $group->questionType->can_have_sub_questions) {
             return response()->json([
-                'status' => false,
+                'status'  => false,
                 'message' => 'This question type does not support sub-questions.',
             ], 422);
         }
 
         $validator = Validator::make($request->all(), [
-            'sub_questions' => 'required|array|min:1',
-            'sub_questions.*.question_text' => 'required|string',
+            'sub_questions'                  => 'required|array|min:1',
+            'sub_questions.*.question_text'  => 'required|string',
             'sub_questions.*.correct_answer' => 'nullable|string',
-            'sub_questions.*.marks' => 'required|integer|min:0',
-            'sub_questions.*.sub_order' => 'required|integer|min:0',
+            'sub_questions.*.marks'          => 'required|integer|min:0',
+            'sub_questions.*.sub_order'      => 'required|integer|min:0',
         ], [
-            'sub_questions.required' => 'Sub questions are required.',
-            'sub_questions.min' => 'At least 1 sub question is required.',
+            'sub_questions.required'                 => 'Sub questions are required.',
+            'sub_questions.min'                      => 'At least 1 sub question is required.',
             'sub_questions.*.question_text.required' => 'Each sub question must have text.',
-            'sub_questions.*.marks.required' => 'Each sub question must have marks.',
-            'sub_questions.*.sub_order.required' => 'Each sub question must have an order.',
+            'sub_questions.*.marks.required'         => 'Each sub question must have marks.',
+            'sub_questions.*.sub_order.required'     => 'Each sub question must have an order.',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => false,
-                'data' => [
+                'status'  => false,
+                'data'    => [
                     "errors" => $validator->errors(),
                 ],
                 'message' => 'Validation failed. Please check your input.',
@@ -486,12 +497,12 @@ class PaperQuestionController extends Controller
         foreach ($request->sub_questions as $subQuestionData) {
             $subQuestion = $question->subQuestions()->create([
                 'section_group_id' => $groupId,
-                'question_text' => $subQuestionData['question_text'],
-                'correct_answer' => $subQuestionData['correct_answer'] ?? null,
-                'marks' => $subQuestionData['marks'],
-                'sub_order' => $subQuestionData['sub_order'],
+                'question_text'    => $subQuestionData['question_text'],
+                'correct_answer'   => $subQuestionData['correct_answer'] ?? null,
+                'marks'            => $subQuestionData['marks'],
+                'sub_order'        => $subQuestionData['sub_order'],
             ]);
-            
+
             $newSubQuestionsMarks += $subQuestion->marks;
         }
 
@@ -501,8 +512,8 @@ class PaperQuestionController extends Controller
         $paper->save();
 
         return response()->json([
-            'status' => true,
-            'data' => [
+            'status'  => true,
+            'data'    => [
                 'question' => $question->load('subQuestions'),
             ],
             'message' => 'Sub-questions updated successfully',

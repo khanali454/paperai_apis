@@ -92,8 +92,8 @@ Route::prefix('user')->middleware(['auth:sanctum'])->group(function () {
     Route::delete('groups/{group}/questions/{question}', [PaperQuestionController::class, 'destroy']);
     
     // Question options routes
-    Route::post('questions/{question}/options', [QuestionOptionController::class, 'store']);
-    Route::put('questions/{question}/options/{option}', [QuestionOptionController::class, 'update']);
-    Route::delete('questions/{question}/options/{option}', [QuestionOptionController::class, 'destroy']);
+    // Route::post('questions/{question}/options', [QuestionOptionController::class, 'store']);
+    // Route::put('questions/{question}/options/{option}', [QuestionOptionController::class, 'update']);
+    // Route::delete('questions/{question}/options/{option}', [QuestionOptionController::class, 'destroy']);
 
 });
