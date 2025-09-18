@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\PaperQuestionController;
 use App\Http\Controllers\Api\PaperSectionController;
 use App\Http\Controllers\Api\PaperTemplateController;
 use App\Http\Controllers\Api\QuestionOptionController;
+use App\Http\Controllers\Api\QuestionTypeController;
 use App\Http\Controllers\Api\SectionGroupController;
 use App\Http\Controllers\Api\StudyMaterialController;
 use App\Http\Controllers\Api\SubjectController;
@@ -91,6 +92,7 @@ Route::prefix('user')->middleware(['auth:sanctum'])->group(function () {
     Route::put('groups/{group}/questions/{question}', [PaperQuestionController::class, 'update']);
     Route::delete('groups/{group}/questions/{question}', [PaperQuestionController::class, 'destroy']);
     
+    Route::post('question-types', [QuestionTypeController::class, 'index']);
     // Question options routes
     // Route::post('questions/{question}/options', [QuestionOptionController::class, 'store']);
     // Route::put('questions/{question}/options/{option}', [QuestionOptionController::class, 'update']);

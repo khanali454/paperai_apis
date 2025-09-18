@@ -904,6 +904,593 @@ file=@updated_notes.pdf
 ```
 
 
+# Paper Management API Documentation
+
+
+
+## 1. Question Types
+
+### Get All Question Types
+**Endpoint:** `GET /user/question-types`
+
+**Response:**
+```json
+{
+  "status": true,
+  "data": {
+    "question_types": [
+      {
+        "id": 1,
+        "name": "Multiple Choice Questions",
+        "slug": "mcq",
+        "description": "Questions with multiple choices and one correct answer",
+        "has_options": true,
+        "has_correct_answer": true,
+        "can_have_sub_questions": false,
+        "has_paragraph": false,
+        "created_at": "2023-08-21T10:22:45.000000Z",
+        "updated_at": "2023-08-21T10:22:45.000000Z"
+      }
+    ]
+  },
+  "message": "Question types fetched successfully"
+}
+```
+
+---
+
+## 2. Papers
+
+### Get All Papers
+**Endpoint:** `GET /papers`
+
+**Response:**
+```json
+{
+  "status": true,
+  "data": {
+    "papers": [
+      {
+        "id": 1,
+        "title": "Mathematics Final Exam",
+        "user_id": 1,
+        "class_id": 5,
+        "subject_id": 3,
+        "created_by": "manual",
+        "uploaded_paper_file": null,
+        "data_source": "personal",
+        "duration": 120,
+        "total_marks": 100,
+        "created_at": "2023-09-09T12:22:45.000000Z",
+        "updated_at": "2023-09-09T12:22:45.000000Z",
+        "sections": []
+      }
+    ]
+  },
+  "message": "Papers fetched successfully"
+}
+```
+
+### Create a Paper
+**Endpoint:** `POST /papers`
+
+**Payload:**
+```json
+{
+  "title": "Mathematics Final Exam",
+  "class_id": 5,
+  "subject_id": 3,
+  "created_by": "manual",
+  "uploaded_paper_file": null,
+  "data_source": "personal",
+  "duration": 120
+}
+```
+
+**Response:**
+```json
+{
+  "status": true,
+  "data": {
+    "paper": {
+      "id": 1,
+      "title": "Mathematics Final Exam",
+      "user_id": 1,
+      "class_id": 5,
+      "subject_id": 3,
+      "created_by": "manual",
+      "uploaded_paper_file": null,
+      "data_source": "personal",
+      "duration": 120,
+      "total_marks": 0,
+      "created_at": "2023-09-09T12:22:45.000000Z",
+      "updated_at": "2023-09-09T12:22:45.000000Z",
+      "sections": []
+    }
+  },
+  "message": "Paper created successfully"
+}
+```
+
+### Get a Specific Paper
+**Endpoint:** `GET /papers/{id}`
+
+**Response:**
+```json
+{
+  "status": true,
+  "data": {
+    "paper": {
+      "id": 1,
+      "title": "Mathematics Final Exam",
+      "user_id": 1,
+      "class_id": 5,
+      "subject_id": 3,
+      "created_by": "manual",
+      "uploaded_paper_file": null,
+      "data_source": "personal",
+      "duration": 120,
+      "total_marks": 100,
+      "created_at": "2023-09-09T12:22:45.000000Z",
+      "updated_at": "2023-09-09T12:22:45.000000Z",
+      "sections": [
+        {
+          "id": 1,
+          "paper_id": 1,
+          "title": "Section A",
+          "instructions": "Answer all questions",
+          "order": 0,
+          "created_at": "2023-09-09T12:22:45.000000Z",
+          "updated_at": "2023-09-09T12:22:45.000000Z",
+          "section_groups": []
+        }
+      ]
+    }
+  },
+  "message": "Paper retrieved successfully"
+}
+```
+
+### Update a Paper
+**Endpoint:** `PUT /papers/{id}`
+
+**Payload:**
+```json
+{
+  "title": "Updated Mathematics Final Exam",
+  "duration": 150
+}
+```
+
+**Response:**
+```json
+{
+  "status": true,
+  "data": {
+    "paper": {
+      "id": 1,
+      "title": "Updated Mathematics Final Exam",
+      "user_id": 1,
+      "class_id": 5,
+      "subject_id": 3,
+      "created_by": "manual",
+      "uploaded_paper_file": null,
+      "data_source": "personal",
+      "duration": 150,
+      "total_marks": 100,
+      "created_at": "2023-09-09T12:22:45.000000Z",
+      "updated_at": "2023-09-09T12:22:45.000000Z",
+      "sections": []
+    }
+  },
+  "message": "Paper updated successfully"
+}
+```
+
+### Delete a Paper
+**Endpoint:** `DELETE /papers/{id}`
+
+**Response:**
+```json
+{
+  "status": true,
+  "message": "Paper deleted successfully"
+}
+```
+
+---
+
+## 3. Paper Sections
+
+### Create a Section
+**Endpoint:** `POST /papers/{paper}/sections`
+
+**Payload:**
+```json
+{
+  "title": "Section A",
+  "instructions": "Answer all questions in this section",
+  "order": 0
+}
+```
+
+**Response:**
+```json
+{
+  "status": true,
+  "data": {
+    "section": {
+      "id": 1,
+      "paper_id": 1,
+      "title": "Section A",
+      "instructions": "Answer all questions in this section",
+      "order": 0,
+      "created_at": "2023-09-09T12:22:45.000000Z",
+      "updated_at": "2023-09-09T12:22:45.000000Z",
+      "section_groups": []
+    }
+  },
+  "message": "Section created successfully"
+}
+```
+
+### Update a Section
+**Endpoint:** `PUT /papers/{paper}/sections/{section}`
+
+**Payload:**
+```json
+{
+  "title": "Updated Section A",
+  "instructions": "Updated instructions",
+  "order": 1
+}
+```
+
+**Response:**
+```json
+{
+  "status": true,
+  "data": {
+    "section": {
+      "id": 1,
+      "paper_id": 1,
+      "title": "Updated Section A",
+      "instructions": "Updated instructions",
+      "order": 1,
+      "created_at": "2023-09-09T12:22:45.000000Z",
+      "updated_at": "2023-09-09T12:22:45.000000Z",
+      "section_groups": []
+    }
+  },
+  "message": "Section updated successfully"
+}
+```
+
+### Delete a Section
+**Endpoint:** `DELETE /papers/{paper}/sections/{section}`
+
+**Response:**
+```json
+{
+  "status": true,
+  "message": "Section deleted successfully"
+}
+```
+
+---
+
+## 4. Section Groups
+
+### Create a Section Group
+**Endpoint:** `POST /sections/{section}/groups`
+
+**Payload:**
+```json
+{
+  "question_type_id": 1,
+  "instructions": "Choose the correct option",
+  "logic": null,
+  "order": 0
+}
+```
+
+**Response:**
+```json
+{
+  "status": true,
+  "data": {
+    "group": {
+      "id": 1,
+      "section_id": 1,
+      "question_type_id": 1,
+      "instructions": "Choose the correct option",
+      "logic": null,
+      "order": 0,
+      "created_at": "2023-09-16T14:38:02.000000Z",
+      "updated_at": "2023-09-16T14:38:02.000000Z",
+      "questions": []
+    }
+  },
+  "message": "Section group created successfully"
+}
+```
+
+### Update a Section Group
+**Endpoint:** `PUT /sections/{section}/groups/{group}`
+
+**Payload:**
+```json
+{
+  "instructions": "Updated instructions",
+  "order": 1
+}
+```
+
+**Response:**
+```json
+{
+  "status": true,
+  "data": {
+    "group": {
+      "id": 1,
+      "section_id": 1,
+      "question_type_id": 1,
+      "instructions": "Updated instructions",
+      "logic": null,
+      "order": 1,
+      "created_at": "2023-09-16T14:38:02.000000Z",
+      "updated_at": "2023-09-16T14:38:02.000000Z",
+      "questions": []
+    }
+  },
+  "message": "Section group updated successfully"
+}
+```
+
+### Delete a Section Group
+**Endpoint:** `DELETE /sections/{section}/groups/{group}`
+
+**Response:**
+```json
+{
+  "status": true,
+  "message": "Section group deleted successfully"
+}
+```
+
+---
+
+## 5. Questions
+
+### Create a Question (Multiple Choice)
+**Endpoint:** `POST /groups/{group}/questions`
+
+**Payload:**
+```json
+{
+  "question_text": "What is 2 + 2?",
+  "marks": 1,
+  "order": 0,
+  "options": [
+    {
+      "option_text": "3",
+      "is_correct": false,
+      "order": 0
+    },
+    {
+      "option_text": "4",
+      "is_correct": true,
+      "order": 1
+    },
+    {
+      "option_text": "5",
+      "is_correct": false,
+      "order": 2
+    }
+  ]
+}
+```
+
+**Response:**
+```json
+{
+  "status": true,
+  "data": {
+    "question": {
+      "id": 1,
+      "section_group_id": 1,
+      "parent_question_id": null,
+      "question_text": "What is 2 + 2?",
+      "paragraph_text": null,
+      "correct_answer": null,
+      "marks": 1,
+      "order": 0,
+      "sub_order": 0,
+      "created_at": "2023-09-16T17:51:04.000000Z",
+      "updated_at": "2023-09-16T17:51:04.000000Z",
+      "options": [
+        {
+          "id": 1,
+          "paper_question_id": 1,
+          "option_text": "3",
+          "is_correct": false,
+          "order": 0,
+          "created_at": "2023-09-16T19:15:19.000000Z",
+          "updated_at": "2023-09-16T19:15:19.000000Z"
+        },
+        {
+          "id": 2,
+          "paper_question_id": 1,
+          "option_text": "4",
+          "is_correct": true,
+          "order": 1,
+          "created_at": "2023-09-16T19:15:19.000000Z",
+          "updated_at": "2023-09-16T19:15:19.000000Z"
+        }
+      ],
+      "subQuestions": []
+    }
+  },
+  "message": "Question created successfully"
+}
+```
+
+### Create a Question (Fill in the Blanks)
+**Endpoint:** `POST /groups/{group}/questions`
+
+**Payload:**
+```json
+{
+  "question_text": "The capital of France is _____.",
+  "correct_answer": "Paris",
+  "marks": 1,
+  "order": 0
+}
+```
+
+### Create a Question (Short Answer with Sub-questions)
+**Endpoint:** `POST /groups/{group}/questions`
+
+**Payload:**
+```json
+{
+  "question_text": "Answer the following questions:",
+  "marks": 0,
+  "order": 0,
+  "sub_questions": [
+    {
+      "question_text": "What is the formula for water?",
+      "correct_answer": "H2O",
+      "marks": 2,
+      "sub_order": 0
+    },
+    {
+      "question_text": "What is the chemical symbol for gold?",
+      "correct_answer": "Au",
+      "marks": 2,
+      "sub_order": 1
+    }
+  ]
+}
+```
+
+### Create a Question (Paragraph Type)
+**Endpoint:** `POST /groups/{group}/questions`
+
+**Payload:**
+```json
+{
+  "paragraph_text": "Read the following passage and answer the questions below. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu nisl.",
+  "marks": 0,
+  "order": 0,
+  "sub_questions": [
+    {
+      "question_text": "What is the main idea of the passage?",
+      "marks": 5,
+      "sub_order": 0
+    },
+    {
+      "question_text": "What does 'Lorem ipsum' refer to?",
+      "marks": 5,
+      "sub_order": 1
+    }
+  ]
+}
+```
+
+### Create a Question (True/False)
+**Endpoint:** `POST /groups/{group}/questions`
+
+**Payload:**
+```json
+{
+  "question_text": "The Earth is flat.",
+  "marks": 1,
+  "order": 0,
+  "options": [
+    {
+      "option_text": "True",
+      "is_correct": false,
+      "order": 0
+    },
+    {
+      "option_text": "False",
+      "is_correct": true,
+      "order": 1
+    }
+  ]
+}
+```
+
+### Update a Question
+**Endpoint:** `PUT /groups/{group}/questions/{question}`
+
+**Payload:**
+```json
+{
+  "question_text": "Updated question text",
+  "marks": 2
+}
+```
+
+**Response:**
+```json
+{
+  "status": true,
+  "data": {
+    "question": {
+      "id": 1,
+      "section_group_id": 1,
+      "parent_question_id": null,
+      "question_text": "Updated question text",
+      "paragraph_text": null,
+      "correct_answer": null,
+      "marks": 2,
+      "order": 0,
+      "sub_order": 0,
+      "created_at": "2023-09-16T17:51:04.000000Z",
+      "updated_at": "2023-09-16T17:51:04.000000Z",
+      "options": [],
+      "subQuestions": []
+    }
+  },
+  "message": "Question updated successfully"
+}
+```
+
+### Delete a Question
+**Endpoint:** `DELETE /groups/{group}/questions/{question}`
+
+**Response:**
+```json
+{
+  "status": true,
+  "message": "Question deleted successfully"
+}
+```
+
+## Error Responses
+
+### Validation Error
+```json
+{
+  "status": false,
+  "data": {
+    "errors": {
+      "field_name": ["The field name is required."]
+    }
+  },
+  "message": "The field name is required."
+}
+```
+
+### Not Found Error
+```json
+{
+  "status": false,
+  "message": "Paper not found"
+}
+```
 
 
 ---
