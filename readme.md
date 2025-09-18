@@ -905,13 +905,16 @@ file=@updated_notes.pdf
 
 
 # Paper Management API Documentation
-
+Base endpoint for it
+```
+/user
+```
 
 
 ## 1. Question Types
 
 ### Get All Question Types
-**Endpoint:** `GET /user/question-types`
+**Endpoint:** `GET /question-types`
 
 **Response:**
 ```json
